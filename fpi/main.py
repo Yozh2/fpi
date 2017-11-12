@@ -9,9 +9,9 @@ import argparse
 import logging
 
 # import local modules
-import jacobi
-import seidel
-import sor
+#   import jacobi
+from seidel import seidel
+#   import sor
 import matreader
 
 if __name__ == '__main__':
@@ -33,6 +33,10 @@ if __name__ == '__main__':
     ARGS = parse_args()
     PATH = ARGS.PATH
 
+    # Ax = b
+    # Read A, b
+    A, b = matreader.read(PATH)
 
-# Ax = b
-A = matreader.read(PATH)
+    # try seidel
+    x = seidel(A, b, .000001)
+    print(x)
