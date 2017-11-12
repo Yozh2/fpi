@@ -26,6 +26,6 @@ def read(path=None):
 
     # A is the NxN sized matrix
     A = input_matrix[:][:N].copy()
-    # Transposed b is the 1xN sized matrix
-    b = input_matrix[:][N:].copy()
+    # b is the Nx1 sized matrix
+    b = input_matrix[:][N:].copy().T
     return A, b
