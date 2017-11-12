@@ -1,8 +1,8 @@
 import numpy as np
 
-def seidel(A, b, eps):
+def seidel(A, b, eps=10e-10):
     n = len(A)
-    x = [.0] * n
+    x = np.zeros_like(b)
 
     converge = False
     while not converge:

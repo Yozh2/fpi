@@ -7,12 +7,23 @@ fpi - Fixed Point Iteration methods comparison.
 from sys import argv
 import argparse
 import logging
+import numpy as np
 
 # import local modules
-#   import jacobi
+from jacobi import jacobi
 from seidel import seidel
 #   import sor
 import matreader
+
+def print_solution(func, A, b, eps):
+    print(func.__name__)
+    x = func(A, b, eps)
+    print(x)
+
+    print(func.__name__, 'error:')
+    error = np.dot(A, x) - b
+    print(error)
+    return x
 
 if __name__ == '__main__':
 
@@ -21,6 +32,8 @@ if __name__ == '__main__':
         parser = argparse.ArgumentParser()
         parser.add_argument("PATH", type=str,
                             help="The PATH to the matrix we want work to.")
+        parser.add_argument("EPS", type=float, nargs='?', default=10e-10,
+                            help="epsilon, the discrepancy from the precise solution.")
         return parser.parse_args()
 
 
@@ -32,11 +45,14 @@ if __name__ == '__main__':
 
     ARGS = parse_args()
     PATH = ARGS.PATH
+    EPS = ARGS.EPS
 
     # Ax = b
     # Read A, b
     A, b = matreader.read(PATH)
 
+    # try jacobi
+    x_jacobi = print_solution(jacobi, A, b, EPS)
+
     # try seidel
-    x = seidel(A, b, .000001)
-    print(x)
+    x_seidel = print_solution(seidel, A, b, EPS)
