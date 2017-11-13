@@ -5,7 +5,7 @@ def seidel(A, b, eps=10e-5):
     try:
         n = len(A)
         x = np.zeros_like(b)
-        disps = np.empty([100000,1])          # disperancies for every iteration
+        residuals = np.empty([100000,1])          # residuals for every iteration
 
         iterations = 0
         converge = False
@@ -16,15 +16,15 @@ def seidel(A, b, eps=10e-5):
                 s2 = sum(A[i][j] * x[j] for j in range(i + 1, n))
                 x_new[i] = (b[i] - s1 - s2) / A[i][i]
 
-            # Count disperance
-            new_disp = lm.norm1(np.dot(A, x) - b)
-            disps[iterations] = [new_disp]
+            # Count residual
+            new_res = lm.norm1(np.dot(A, x) - b)
+            residuals[iterations] = [new_res]
 
-            converge = new_disp <= eps
+            converge = new_res <= eps
             x = x_new
             iterations += 1
     except KeyboardInterrupt:
         print('Exiting. Intermediate results:')
     finally:
-        disps = np.trim_zeros(disps, 'b')   # remove trailing zeros
-        return x, iterations, disps
+        residuals = np.trim_zeros(residuals, 'b')   # remove trailing zeros
+        return x, iterations, residuals

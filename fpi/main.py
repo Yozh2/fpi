@@ -15,9 +15,9 @@ from jacobi import jacobi
 from seidel import seidel
 from sor import sor
 import matreader
-# import grapher
+import grapher
 
-def save_solution(func, eps, x, error, disps, path):
+def save_solution(func, eps, x, error, residuals, path):
     name = ''.join(os.path.basename(path).split('.')[:-1])
 
     testdir_path = os.path.join(os.getcwd(), name + '_solutions')
@@ -26,29 +26,28 @@ def save_solution(func, eps, x, error, disps, path):
 
     x_path = os.path.join(testdir_path, func.__name__+'.x.smtx')
     err_path = os.path.join(testdir_path, func.__name__+'.err.smtx')
-    disp_path = os.path.join(testdir_path, func.__name__+'.disp.smtx')
+    res_path = os.path.join(testdir_path, func.__name__+'.res.smtx')
 
     np.savetxt(x_path, x, fmt='%.10e', delimiter=' ', newline='\n')
     np.savetxt(err_path, error, fmt='%.10e', delimiter=' ', newline='\n')
-    np.savetxt(disp_path, disps, fmt='%.10e', delimiter=' ', newline='\n')
-
+    np.savetxt(res_path, residuals, fmt='%.10e', delimiter=' ', newline='\n')
 
 def print_solution(func, A, b, eps, to_files=False, path=None):
     print(func.__name__)
-    x, iterations, disps = func(A, b, eps)
+    x, iterations, residuals = func(A, b, eps)
     print(x)
 
     print(func.__name__, 'error:')
     error = np.dot(A, x) - b
     print(error)
 
-    print(func.__name__, 'disperances:')
-    print(disps, sep='\n')
+    print(func.__name__, 'residuals:')
+    print(residuals, sep='\n')
 
     if to_files:
-        save_solution(func, eps, x, error, disps, path)
+        save_solution(func, eps, x, error, residuals, path)
 
-    return x
+    return x, residuals
 
 def compare(mth1, mth2, x1, x2):
     print(mth1, '-', mth2, ':')
@@ -86,9 +85,9 @@ if __name__ == '__main__':
     # Read A, b
     A, b = matreader.read(PATH)
     if OPT == 'all':
-        x_jacobi = print_solution(jacobi, A, b, EPS, SF, PATH)
-        x_seidel = print_solution(seidel, A, b, EPS, SF, PATH)
-        x_sor = print_solution(sor, A, b, EPS, SF, PATH)
+        x_jacobi, r_jacobi = print_solution(jacobi, A, b, EPS, SF, PATH)
+        x_seidel, r_seidel = print_solution(seidel, A, b, EPS, SF, PATH)
+        x_sor, r_sor = print_solution(sor, A, b, EPS, SF, PATH)
 
         compare('jacobi', 'seidel', x_jacobi, x_seidel)
         compare('jacobi', 'sor', x_jacobi, x_sor)
@@ -101,4 +100,5 @@ if __name__ == '__main__':
     elif OPT == 'seidel':
         x = print_solution(seidel, A, b, EPS, SF, PATH)
 
-    # grapher.makeplot(x_jacobi,0,0)
+
+    grapher.makeplot_residuals(r_jacobi, r'$\varepsilon^k$', r'$\varepsilon^{k+1}$', 'jacobi')
