@@ -5,7 +5,7 @@ def jacobi(A, b, eps=1e-5):
     try:
         n = len(A)
         x = np.zeros_like(b)
-        disps = list()          # disperancies for every iteration
+        disps = np.empty([100000,1])          # disperancies for every iteration
 
         iterations = 0
         converge = False
@@ -18,7 +18,7 @@ def jacobi(A, b, eps=1e-5):
 
             # Count disperance
             new_disp = lm.norm1(np.dot(A, x) - b)
-            disps.append([new_disp])
+            disps[iterations] = [new_disp]
 
             converge = new_disp <= eps
             x = x_new
@@ -26,4 +26,5 @@ def jacobi(A, b, eps=1e-5):
     except KeyboardInterrupt:
         print('Exiting. Intermediate results:')
     finally:
-        return x, iterations, np.array(disps)
+        disps = np.trim_zeros(disps, 'b')   # remove trailing zeros
+        return x, iterations, disps
