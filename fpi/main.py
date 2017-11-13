@@ -17,7 +17,7 @@ from sor import sor
 import matreader
 # import grapher
 
-def save_solution(func, x, error, path):
+def save_solution(func, eps, x, error, path):
     name = ''.join(os.path.basename(path).split('.')[:-1])
 
     testdir_path = os.path.join(os.getcwd(), name + '_solutions')
@@ -33,7 +33,7 @@ def save_solution(func, x, error, path):
 
 def print_solution(func, A, b, eps, to_files=False, path=None):
     print(func.__name__)
-    x = func(A, b, eps)
+    x, iterations = func(A, b, eps)
     print(x)
 
     print(func.__name__, 'error:')
@@ -41,7 +41,7 @@ def print_solution(func, A, b, eps, to_files=False, path=None):
     print(error)
 
     if to_files:
-        save_solution(func, x, error, path)
+        save_solution(func, eps, x, error, path)
 
     return x
 
