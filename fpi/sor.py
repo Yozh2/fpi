@@ -6,6 +6,7 @@ def sor(A, b, eps=10e-7):
         b = np.dot(A.T, b)
         A = np.dot(A.T, A)
         x = np.zeros_like(b)
+        disps = list()
 
         # Optimal parameter count
         eig = np.linalg.eig(A)[0]
@@ -23,11 +24,15 @@ def sor(A, b, eps=10e-7):
                 x_new[i] = (b[i] - s1 - s2) / A[i][i]       # Like in seidel
                 x_new[i] = w * x_new[i] + (1-w)*x[i]        # Shift to SOR
 
-            converge = np.linalg.norm(x_new-x) <= eps
+            # Count disperance
+            new_disp = lm.norm1(np.dot(A, x) - b)
+            disps.append([new_disp])
+
+            converge = new_disp <= eps
             x = x_new
             iterations += 1
 
     except KeyboardInterrupt:
         print('Exiting. Intermediate results:')
     finally:
-        return x, iterations
+        return x, iterations, np.array(disps)
