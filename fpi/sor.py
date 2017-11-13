@@ -15,7 +15,6 @@ def sor(A, b, eps=10e-7,w=1.5):
             s2 = sum(A[i][j] * x[j] for j in range(i + 1, n))
             x_new[i] = (b[i] - s1 - s2) / A[i][i]
             x_new[i] = w * x_new[i] + (1-w)*x[i]
-        print(x_new)
         converge = np.sqrt(sum((x_new[i] - x[i]) ** 2 for i in range(n))) <= eps
         x = x_new
     
