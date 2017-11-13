@@ -17,7 +17,7 @@ from sor import sor
 import matreader
 # import grapher
 
-def save_solution(func, eps, x, error, path):
+def save_solution(func, eps, x, error, disps, path):
     name = ''.join(os.path.basename(path).split('.')[:-1])
 
     testdir_path = os.path.join(os.getcwd(), name + '_solutions')
@@ -26,22 +26,27 @@ def save_solution(func, eps, x, error, path):
 
     x_path = os.path.join(testdir_path, func.__name__+'.x.smtx')
     err_path = os.path.join(testdir_path, func.__name__+'.err.smtx')
+    disp_path = os.path.join(testdir_path, func.__name__+'.disp.smtx')
 
     np.savetxt(x_path, x, fmt='%.10e', delimiter=' ', newline='\n')
     np.savetxt(err_path, error, fmt='%.10e', delimiter=' ', newline='\n')
+    np.savetxt(disp_path, disps, fmt='%.10e', delimiter=' ', newline='\n')
 
 
 def print_solution(func, A, b, eps, to_files=False, path=None):
     print(func.__name__)
-    x, iterations = func(A, b, eps)
+    x, iterations, disps = func(A, b, eps)
     print(x)
 
     print(func.__name__, 'error:')
     error = np.dot(A, x) - b
     print(error)
 
+    print(func.__name__, 'disperances:')
+    print(disps, sep='\n')
+
     if to_files:
-        save_solution(func, eps, x, error, path)
+        save_solution(func, eps, x, error, disps, path)
 
     return x
 

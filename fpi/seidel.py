@@ -4,8 +4,8 @@ def seidel(A, b, eps=10e-5):
     try:
         n = len(A)
         x = np.zeros_like(b)
-        iterations = 0
 
+        iterations = 0
         converge = False
         while not converge:
             x_new = np.copy(x)

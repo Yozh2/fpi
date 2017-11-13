@@ -1,14 +1,13 @@
 import numpy as np
+import littlemath as lm
 
-def norm1(x):
-    return max(x)
-
-def jacobi(A, b, eps=10e-5):
+def jacobi(A, b, eps=1e-5):
     try:
         n = len(A)
         x = np.zeros_like(b)
         disps = list()          # disperancies for every iteration
 
+        iterations = 0
         converge = False
         while not converge:
             x_new = np.zeros_like(x)
@@ -17,11 +16,14 @@ def jacobi(A, b, eps=10e-5):
                 s2 = np.dot(A[i][i + 1:], x[i + 1:])
                 x_new[i] = (b[i] - s1 - s2) / A[i][i]
 
-            cur_disp =
-            converge = np.sqrt(sum((x_new[i] - x[i]) ** 2 for i in range(n))) <= eps
+            # Count disperance
+            new_disp = lm.norm1(np.dot(A, x) - b)
+            disps.append([new_disp])
+
+            converge = new_disp <= eps
             x = x_new
             iterations += 1
     except KeyboardInterrupt:
         print('Exiting. Intermediate results:')
     finally:
-        return x, iterations
+        return x, iterations, np.array(disps)
