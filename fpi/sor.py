@@ -1,4 +1,5 @@
 import numpy as np
+import littlemath as lm
 
 def sor(A, b, eps=10e-7):
     try:

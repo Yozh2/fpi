@@ -87,12 +87,12 @@ if __name__ == '__main__':
     A, b = matreader.read(PATH)
     if OPT == 'all':
         x_jacobi = print_solution(jacobi, A, b, EPS, SF, PATH)
-#        x_sor = print_solution(sor, A, b, EPS, SF, PATH)
         x_seidel = print_solution(seidel, A, b, EPS, SF, PATH)
+        x_sor = print_solution(sor, A, b, EPS, SF, PATH)
 
-#        compare('jacobi', 'sor', x_jacobi, x_sor)
         compare('jacobi', 'seidel', x_jacobi, x_seidel)
-#        compare('sor', 'seidel', x_sor, x_seidel)
+        compare('jacobi', 'sor', x_jacobi, x_sor)
+        compare('sor', 'seidel', x_sor, x_seidel)
 
     elif OPT == 'jacobi':
         x = print_solution(jacobi, A, b, EPS, SF, PATH)
