@@ -1,10 +1,14 @@
 import numpy as np
 
-def sor(A, b, eps=10e-7, w=1.5):
+def sor(A, b, eps=10e-7):
     try:
         b = np.dot(A.T, b)
         A = np.dot(A.T, A)
         n = len(A)
+        eig = np.linalg.eig(A)[0]
+        max_eig = max(eig)
+        min_eig = min(eig)
+        w = 2 / (max_eig  + min_eig)
         x = np.zeros_like(b)
         converge = False
         while not converge:
