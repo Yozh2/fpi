@@ -26,6 +26,10 @@ def print_solution(func, A, b, eps):
     print(error)
     return x
 
+def compare(mth1, mth2, x1, x2):
+    print(mth1, '-', mth2, ':')
+    print(x1-x2)
+
 if __name__ == '__main__':
 
     def parse_args():
@@ -58,6 +62,10 @@ if __name__ == '__main__':
         x_jacobi = print_solution(jacobi, A, b, EPS)
         x_sor = print_solution(sor, A, b, EPS)
         x_seidel = print_solution(seidel, A, b, EPS)
+
+        compare('jacobi', 'sor', x_jacobi, x_sor)
+        compare('jacobi', 'seidel', x_jacobi, x_seidel)
+        compare('sor', 'seidel', x_sor, x_seidel)
 
     elif OPT == 'jacobi':
         x = print_solution(jacobi, A, b, EPS)
