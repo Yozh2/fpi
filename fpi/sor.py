@@ -13,7 +13,7 @@ def sor(A, b, eps=10e-7):
         eig = np.linalg.eig(A)[0]
         max_eig = max(eig)
         min_eig = min(eig)
-        w = 2 / (max_eig  + min_eig)
+        w = 2 / (max_eig  + min_eig) + 1 
 
         iterations = 0
         converge = False
