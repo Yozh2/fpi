@@ -14,7 +14,7 @@ from jacobi import jacobi
 from seidel import seidel
 from sor import sor
 import matreader
-import grapher
+# import grapher
 
 def print_solution(func, A, b, eps):
     print(func.__name__)
