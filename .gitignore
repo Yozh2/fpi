@@ -100,3 +100,6 @@ ENV/
 
 # matrices
 matrix/
+
+# ssh keys
+*.pem

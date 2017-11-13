@@ -12,7 +12,8 @@ def seidel(A, b, eps=10e-10):
             s2 = sum(A[i][j] * x[j] for j in range(i + 1, n))
             x_new[i] = (b[i] - s1 - s2) / A[i][i]
 
-        converge = np.sqrt(sum((x_new[i] - x[i]) ** 2 for i in range(n))) <= eps
+        #print(np.dot(A, x) - b)
+        converge = np.linalg.norm(x_new-x) <= eps
         x = x_new
 
     return x
