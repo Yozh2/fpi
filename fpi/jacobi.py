@@ -17,6 +17,6 @@ def jacobi(A, b, eps=10e-10):
             converge = np.linalg.norm(x_new-x) <= eps
             x = x_new
     except KeyboardInterrupt:
-        print(x)
+        print('Exiting. Intermediate results:')
     finally:
         return x

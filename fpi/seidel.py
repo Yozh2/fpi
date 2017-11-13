@@ -1,7 +1,7 @@
 import numpy as np
 
 def seidel(A, b, eps=10e-10):
-    try:    
+    try:
         n = len(A)
         x = np.zeros_like(b)
 
@@ -18,6 +18,6 @@ def seidel(A, b, eps=10e-10):
             x = x_new
 
     except KeyboardInterrupt:
-        print(x)
+        print('Exiting. Intermediate results:')
     finally:
         return x
