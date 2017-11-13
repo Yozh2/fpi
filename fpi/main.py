@@ -33,8 +33,9 @@ def save_solution(func, eps, x, error, residuals, path):
     np.savetxt(res_path, residuals, fmt='%.10e', delimiter=' ', newline='\n')
 
 def print_solution(func, A, b, eps, to_files=False, path=None):
-    print(func.__name__)
+    print(func.__name__,'computing started...')
     x, iterations, residuals = func(A, b, eps)
+    print(func.__name__, 'completed:', iterations, 'iterations')
     print(x)
 
     print(func.__name__, 'error:')
@@ -53,6 +54,12 @@ def compare(mth1, mth2, x1, x2):
     print(mth1, '-', mth2, ':')
     print(x1-x2)
 
+def build_graph_from(path=None):
+    r_v = matreader.read_vector(path)
+    r_v_name = os.path.basename(path).split('.')[0]
+    grapher.makeplot_residuals(r_v, r'$\varepsilon^k$', r'$\varepsilon^{k+1}$', r_v_name)
+
+
 if __name__ == '__main__':
 
     def parse_args():
@@ -65,7 +72,9 @@ if __name__ == '__main__':
         parser.add_argument("EPS", type=float, nargs='?', default=10e-10,
                             help="epsilon, the discrepancy from the precise solution.")
         parser.add_argument('-s', "--savefiles", action='store_true',
-                            help="Save computation results to .smtx files")
+                            help="Save computation results to .smtx files.")
+        parser.add_argument('-g', "--grapher", action='store_true',
+                            help="Read .smtx vector from PATH and make plot.")
         return parser.parse_args()
 
 
@@ -80,25 +89,27 @@ if __name__ == '__main__':
     OPT = ARGS.OPT
     EPS = ARGS.EPS
     SF = ARGS.savefiles
+    GR = ARGS.grapher
 
-    # Ax = b
-    # Read A, b
-    A, b = matreader.read(PATH)
-    if OPT == 'all':
-        x_jacobi, r_jacobi = print_solution(jacobi, A, b, EPS, SF, PATH)
-        x_seidel, r_seidel = print_solution(seidel, A, b, EPS, SF, PATH)
-        x_sor, r_sor = print_solution(sor, A, b, EPS, SF, PATH)
+    if GR:
+        build_graph_from(PATH)
 
-        compare('jacobi', 'seidel', x_jacobi, x_seidel)
-        compare('jacobi', 'sor', x_jacobi, x_sor)
-        compare('sor', 'seidel', x_sor, x_seidel)
+    else:
+        # Ax = b
+        # Read A, b
+        A, b = matreader.read(PATH)
+        if OPT == 'all':
+            x_jacobi, r_jacobi = print_solution(jacobi, A, b, EPS, SF, PATH)
+            x_seidel, r_seidel = print_solution(seidel, A, b, EPS, SF, PATH)
+            x_sor, r_sor = print_solution(sor, A, b, EPS, SF, PATH)
 
-    elif OPT == 'jacobi':
-        x = print_solution(jacobi, A, b, EPS, SF, PATH)
-    elif OPT == 'sor':
-        x = print_solution(sor, A, b, EPS, SF, PATH)
-    elif OPT == 'seidel':
-        x = print_solution(seidel, A, b, EPS, SF, PATH)
+            compare('jacobi', 'seidel', x_jacobi, x_seidel)
+            compare('jacobi', 'sor', x_jacobi, x_sor)
+            compare('sor', 'seidel', x_sor, x_seidel)
 
-
-    grapher.makeplot_residuals(r_jacobi, r'$\varepsilon^k$', r'$\varepsilon^{k+1}$', 'jacobi')
+        elif OPT == 'jacobi':
+            x = print_solution(jacobi, A, b, EPS, SF, PATH)
+        elif OPT == 'sor':
+            x = print_solution(sor, A, b, EPS, SF, PATH)
+        elif OPT == 'seidel':
+            x = print_solution(seidel, A, b, EPS, SF, PATH)
