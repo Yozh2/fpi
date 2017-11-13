@@ -18,7 +18,7 @@ import matreader
 # import grapher
 
 def save_solution(func, x, error, path):
-    name = os.path.basename(problem)
+    name = ''.join(os.path.basename(path).split('.')[:-1])
 
     testdir_path = os.path.join(os.getcwd(), name + '_solutions')
     if not os.path.exists(testdir_path):
