@@ -52,11 +52,13 @@ def compare(mth1, mth2, x1, x2):
     print(mth1, '-', mth2, ':')
     print(x1-x2)
 
-def build_graph_from(path):
+def build_graph_from(path, option):
     import grapher
-    r_v = matreader.read_vector(path)
-    r_v_name = os.path.basename(path).split('.')[0]
-    grapher.makeplot_residuals(r_v, r'$\varepsilon^k$', r'$\varepsilon^{k+1}$', r_v_name)
+    vector_path = os.path.join(path, option + '.res.smtx')
+
+    r_v = matreader.read_vector(vector_path)
+    r_v_name = os.path.basename(vector_path).split('.')[0]
+    grapher.makeplot_residuals(r_v, r'$\varepsilon^k$', r'$\varepsilon^{k+1}$', r_v_name, path)
 
 def build_graphs_from(path):
     import grapher
@@ -70,7 +72,7 @@ def build_graphs_from(path):
     r_sor = matreader.read_vector(path_sor)
 
     grapher.makeplots_residuals(r_jacobi, r_seidel, r_sor,
-                                r'$\varepsilon^k$', r'$\varepsilon^{k+1}$')
+                                r'$\varepsilon^k$', r'$\varepsilon^{k+1}$', path)
 
 if __name__ == '__main__':
 
@@ -106,8 +108,7 @@ if __name__ == '__main__':
     if GR and OPT == 'all':
         build_graphs_from(PATH)
     elif GR:
-        vector_path = os.path.join(PATH, OPT + '.res.smtx')
-        build_graph_from(vector_path)
+        build_graph_from(PATH, OPT)
     else:
         # Ax = b
         # Read A, b
