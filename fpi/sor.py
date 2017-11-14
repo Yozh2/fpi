@@ -28,8 +28,8 @@ def sor(A, b, eps=1e-5):
             # Count residual
             new_res = lm.norm1(np.dot(A, x) - b)
             residuals[iterations] = [new_res]
-            # print('sor', iterations, 'iteration residual:', new_res)
-            
+            print('sor', iterations, 'iteration residual:', new_res)
+
             converge = new_res <= eps
             x = x_new
             iterations += 1

@@ -42,8 +42,8 @@ def print_solution(func, A, b, eps, to_files=False, path=None):
     error = np.dot(A, x) - b
     # print(error)
 
-    print(func.__name__, 'residuals:')
-    print(residuals, sep='\n')
+    # print(func.__name__, 'residuals:')
+    # print(residuals, sep='\n')
 
     if to_files:
         save_solution(func, eps, x, error, residuals, path)
