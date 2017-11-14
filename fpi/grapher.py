@@ -30,6 +30,8 @@ def makeplot_residuals(residuals=[], x_name='x', y_name='y', mth_name='custom', 
     ax.plot(residuals[:-1], residuals[1:],
             color=get_color(),
             label='sorelx: {}'.format(len(residuals)))
+
+    plt.legend()
     plt.savefig(os.path.join(path, mth_name + '.png'))
     plt.show()
 
