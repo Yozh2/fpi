@@ -7,7 +7,7 @@ def sor(A, b, eps=1e-5):
         b = np.dot(A.T, b)
         A = np.dot(A.T, A)
         x = np.zeros_like(b)
-        residuals = np.empty([100000,1])          # residuals for every iteration
+        residuals = np.empty([1000000,1])          # residuals for every iteration
 
         # Optimal parameter count
         eig = np.linalg.eig(A)[0]
@@ -28,7 +28,8 @@ def sor(A, b, eps=1e-5):
             # Count residual
             new_res = lm.norm1(np.dot(A, x) - b)
             residuals[iterations] = [new_res]
-
+            # print('sor', iterations, 'iteration residual:', new_res)
+            
             converge = new_res <= eps
             x = x_new
             iterations += 1

@@ -36,11 +36,11 @@ def print_solution(func, A, b, eps, to_files=False, path=None):
     print(func.__name__,'computing started...')
     x, iterations, residuals = func(A, b, eps)
     print(func.__name__, 'completed:', iterations, 'iterations')
-    print(x)
+    # print(x)
 
-    print(func.__name__, 'error:')
+    # print(func.__name__, 'error:')
     error = np.dot(A, x) - b
-    print(error)
+    # print(error)
 
     print(func.__name__, 'residuals:')
     print(residuals, sep='\n')
