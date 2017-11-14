@@ -4,8 +4,8 @@ import littlemath as lm
 def sor(A, b, eps=1e-5):
     try:
         n = len(A)
-        b = np.dot(A.T, b)
-        A = np.dot(A.T, A)
+#        b = np.dot(A.T, b)
+#        A = np.dot(A.T, A)
         x = np.zeros_like(b)
         residuals = np.empty([100000,1])          # residuals for every iteration
 
