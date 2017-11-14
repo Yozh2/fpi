@@ -52,12 +52,25 @@ def compare(mth1, mth2, x1, x2):
     print(mth1, '-', mth2, ':')
     print(x1-x2)
 
-def build_graph_from(path=None):
+def build_graph_from(path):
     import grapher
     r_v = matreader.read_vector(path)
     r_v_name = os.path.basename(path).split('.')[0]
     grapher.makeplot_residuals(r_v, r'$\varepsilon^k$', r'$\varepsilon^{k+1}$', r_v_name)
 
+def build_graphs_from(path):
+    import grapher
+
+    path_jacobi = os.path.join(path, 'jacobi.res.smtx')
+    path_seidel = os.path.join(path, 'seidel.res.smtx')
+    path_sor = os.path.join(path, 'sor.res.smtx')
+
+    r_jacobi = matreader.read_vector(path_jacobi)
+    r_seidel = matreader.read_vector(path_seidel)
+    r_sor = matreader.read_vector(path_sor)
+
+    grapher.makeplots_residuals(r_jacobi, r_seidel, r_sor,
+                                r'$\varepsilon^k$', r'$\varepsilon^{k+1}$')
 
 if __name__ == '__main__':
 
@@ -90,9 +103,11 @@ if __name__ == '__main__':
     SF = ARGS.savefiles
     GR = ARGS.grapher
 
-    if GR:
-        build_graph_from(PATH)
-
+    if GR and OPT == 'all':
+        build_graphs_from(PATH)
+    elif GR:
+        vector_path = os.path.join(PATH, OPT + '.res.smtx')
+        build_graph_from(vector_path)
     else:
         # Ax = b
         # Read A, b
