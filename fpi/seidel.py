@@ -1,7 +1,7 @@
 import numpy as np
 import littlemath as lm
 
-def seidel(A, b, eps=10e-5):
+def seidel(A, b, eps=1e-5):
     try:
         n = len(A)
         x = np.zeros_like(b)

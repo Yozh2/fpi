@@ -68,7 +68,7 @@ if __name__ == '__main__':
                             help="'jacobi', 'seidel' or 'sor' computation only")
         parser.add_argument("PATH", type=str,
                             help="The PATH to the matrix we want work to.")
-        parser.add_argument("EPS", type=float, nargs='?', default=10e-10,
+        parser.add_argument("EPS", type=float, nargs='?', default=1e-5,
                             help="epsilon, the discrepancy from the precise solution.")
         parser.add_argument('-s', "--savefiles", action='store_true',
                             help="Save computation results to .smtx files.")
