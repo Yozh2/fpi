@@ -57,8 +57,9 @@ def build_graph_from(path, option):
     vector_path = os.path.join(path, option + '.res.smtx')
 
     r_v = matreader.read_vector(vector_path)
-    r_v_name = os.path.basename(vector_path).split('.')[0]
+    r_v_name = option
     grapher.makeplot_residuals(r_v, r'$\varepsilon^k$', r'$\varepsilon^{k+1}$', r_v_name, path)
+    grapher.makeplot_res_from_iters(r_v, r'Iterations', r'Residual', r_v_name, path)
 
 def build_graphs_from(path):
     import grapher
@@ -73,6 +74,8 @@ def build_graphs_from(path):
 
     grapher.makeplots_residuals(r_jacobi, r_seidel, r_sor,
                                 r'$\varepsilon^k$', r'$\varepsilon^{k+1}$', path)
+    grapher.makeplots_res_from_iters(r_jacobi, r_seidel, r_sor,
+                            r'Iterations', r'Residual', path)
 
 if __name__ == '__main__':
 
