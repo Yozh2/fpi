@@ -15,8 +15,6 @@ from jacobi import jacobi
 from seidel import seidel
 from sor import sor
 import matreader
-import grapher
-
 def save_solution(func, eps, x, error, residuals, path):
     name = ''.join(os.path.basename(path).split('.')[:-1])
 
@@ -55,6 +53,7 @@ def compare(mth1, mth2, x1, x2):
     print(x1-x2)
 
 def build_graph_from(path=None):
+    import grapher
     r_v = matreader.read_vector(path)
     r_v_name = os.path.basename(path).split('.')[0]
     grapher.makeplot_residuals(r_v, r'$\varepsilon^k$', r'$\varepsilon^{k+1}$', r_v_name)
