@@ -3,6 +3,8 @@ import littlemath as lm
 
 def jacobi(A, b, eps=1e-5):
     try:
+        print(lm.count_iterations(A, b, eps), 'iterations expected')
+
         n = len(A)
         x = np.zeros_like(b)
         residuals = np.empty([100000,1])          # residuals for every iteration

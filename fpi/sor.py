@@ -37,4 +37,4 @@ def sor(A, b, eps=1e-5):
         print('Exiting. Intermediate results:')
     finally:
         residuals = np.trim_zeros(residuals, 'b')   # remove trailing zeros
-        return x, iterations, residuals
+        return x, iterations, np.array(residuals)
